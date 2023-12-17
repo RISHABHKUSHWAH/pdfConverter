@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block container %}
+
+
+<section class="about section-padding prelative" data-scroll-index='1'>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="sectioner-header text-center">
+          <h3>PDF To PowerPoint</h3>
+          <span class="line"></span>
+          <p>Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use! Merge, split,
+            compress, convert, rotate, unlock and watermark PDFs with just a few clicks.</p>
+        </div>
+        <div class="section-content text-center">
+          {% csrf_token %}
+          <form method="POST" enctype="multipart/form-data" action="">
+            {% csrf_token %}
+            <input type="file" multiple name="select_file" accept=".pdf">
+        </div>
+        <div class="section-content text-center">
+          <button class="about-btn" type="submit" name="submit">Select PDF files</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+</div>
+</div>
+</section>
+
+
+{% endblock %}
