@@ -12,7 +12,21 @@
           <p>Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use! Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.</p>
         </div>
         <div class="section-content text-center">
-          {% csrf_token %}
+          {% if pdf_file_url %}
+                      <div class="section-content text-center">
+                      <a href="{{ pdf_file_url }}" class="about-btn" download>Download Converted PDF</a>
+                     </div>
+					 {% else %}
+					 <form method="POST" enctype="multipart/form-data" action="">
+						 {% csrf_token %}
+						 <input type="file" multiple name="select_file" accept=".jpg, .jpeg, .png">
+						</div>
+						<div class="section-content text-center">
+							<button class="about-btn" type="submit" name="submit">Select Jpg files</button>
+						</div>
+					</form>
+					{% endif %}
+          {% comment %} {% csrf_token %}
           <form method="POST"  enctype="multipart/form-data" action="" >
             {% csrf_token %}
 						<input type="file" multiple name="select_file" accept=".jpg, .jpeg, .png">
@@ -20,7 +34,7 @@
 					<div class="section-content text-center">
 						<button class="about-btn" type="submit" name="submit">Select Jpg files</button>
 						</div>
-          </form>
+          </form> {% endcomment %}
                 </div>
               </div>
             </div>

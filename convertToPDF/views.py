@@ -2,21 +2,15 @@ from django.shortcuts import render
 from docx2pdf import convert
 from django.core.files.storage import FileSystemStorage
 from PIL import Image
-from win32com import client
 import os
-import win32com.client as win32
-import comtypes.client as com
 import win32com.client
 import pythoncom 
 import pdfkit
 from django.http import HttpResponse
-import subprocess
-import openpyxl
-from openpyxl.drawing.image import Image
 from openpyxl import load_workbook
 from reportlab.pdfgen import canvas
-import comtypes.client
-import pythoncom
+
+
 
 def wordToPdf(request):
     if request.method == 'POST':
@@ -59,7 +53,7 @@ def excelToPdf(request):
         file_name = str(file_name)
         excel_file = r'C:\Users\kushwah\OneDrive\Desktop\convert\pdfConverter\media\{}'.format(file_name)
         name, extension = os.path.splitext(file_name)
-        pdf_file = r"C:\Users\kushwah\OneDrive\Desktop\convert\pdfConverter\{}.pdf".format(name)
+        pdf_file = r"C:\Users\kushwah\OneDrive\Desktop\convert\pdfConverter\media\{}.pdf".format(name)
         print("excel_file--",excel_file)
         print("pdf_file--",pdf_file)
         try:
@@ -76,13 +70,12 @@ def excelToPdf(request):
                 c.save()
         except Exception as e:
             print(f"Error: {str(e)}")
-        return render(request,'convertToPdf/excelToPdf.html',{'file_url': file_url})
+        context = {'file_url': excel_file, 'pdf_file_url': fss.url(f"{name}.pdf")}
+        print(context)
+        return render(request, 'convertToPdf/excelToPdf.html', context)    
+        # return render(request,'convertToPdf/excelToPdf.html',{'file_url': file_url})
     return render(request,'convertToPdf/excelToPdf.html')
 
-import pdfkit
-import requests
-from django.shortcuts import render
-from django.http import HttpResponse
 
 def htmlToPdf(request):
     if request.method == 'POST':
@@ -108,11 +101,13 @@ def jpgToPdf(request):
         file = fss.save(img.name, img)
         file_url = fss.url(file)
         img = str(img)
-        image_1 = Image.open(r'C:\Users\kushwah\OneDrive\Desktop\pdf_project\pdf_convert\media\%s'%img)
+        image_1 = Image.open(r'C:\Users\kushwah\OneDrive\Desktop\convert\pdfConverter\media\%s' % img)
         im_1 = image_1.convert('RGB')
-        name, extension = os.path.splitext(file_name)
-        im_1.save(r'{}.pdf'.format(name))
-        return render(request,'convertToPdf/jpdToPdf.html',{'file_url': file_url})
+        name, extension = os.path.splitext(img)
+        im_1.save(r'C:\Users\kushwah\OneDrive\Desktop\convert\pdfConverter\media\{}.pdf'.format(name))
+        context = {'file_url': image_1, 'pdf_file_url': fss.url(f"{name}.pdf")}
+        print(context)
+        return render(request, 'convertToPdf/jpdToPdf.html', context)  
     return render(request,'convertToPdf/jpdToPdf.html')
 
 def powerpointToPdf(request):
@@ -126,7 +121,7 @@ def powerpointToPdf(request):
             ppt_file = r'C:\Users\kushwah\OneDrive\Desktop\convert\pdfConverter\media\{}'.format(file_name)
             print(ppt_file)
             name, extension = os.path.splitext(file_name)
-            pdf_file = r"C:\Users\kushwah\OneDrive\Desktop\convert\pdfConverter\{}.pdf".format(name)
+            pdf_file = r"C:\Users\kushwah\OneDrive\Desktop\convert\pdfConverter\media\{}.pdf".format(name)
             print("PowerPoint To PDF")
             try:
                 pythoncom.CoInitialize()
@@ -138,5 +133,8 @@ def powerpointToPdf(request):
                 pythoncom.CoUninitialize()
             except Exception as e:
                 print(f"An error occurred: {str(e)}")
-        return render(request,'convertToPdf/powerponitToPdf.html')    
+            #  Provide a link to download the converted PDF
+            context = {'file_url': ppt_file, 'pdf_file_url': fss.url(f"{name}.pdf")}
+            print(context)    
+        return render(request,'convertToPdf/powerponitToPdf.html',context)    
     return render(request,'convertToPdf/powerponitToPdf.html')

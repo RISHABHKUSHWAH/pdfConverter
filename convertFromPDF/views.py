@@ -1,24 +1,13 @@
 from django.shortcuts import render
 from django.core.files.storage import FileSystemStorage
 from pdf2docx import parse
-from pdf2image import convert_from_path
 import os
-import tempfile
-from pdf2image import convert_from_path
-from reportlab.platypus import SimpleDocTemplate, Paragraph, PageBreak
-from reportlab.lib.pagesizes import letter
-from reportlab.lib import colors
-from reportlab.lib.styles import getSampleStyleSheet
 from pptx import Presentation
-from pptx.util import Inches
-import tabula
-import pandas as pd
-import PyPDF2
+# import pandas as pd
 from openpyxl import Workbook
 from PIL import Image
 import fitz  # PyMuPDF
 from PyPDF2 import PdfReader
-from pptx import Presentation
 from pptx.util import Inches
 def pdfToWord(request):
     if request.method == "POST":
@@ -45,7 +34,7 @@ def pdfToExcel(request):
         pdf_file_name  = str(pdf_file )
         name, extension = os.path.splitext(pdf_file_name)
         pdf_file =r'C:\Users\kushwah\OneDrive\Desktop\convert\pdfConverter\media\{}'.format(pdf_file_name)
-        excel_file = r'C:\Users\kushwah\OneDrive\Desktop\convert\pdfConverter\{}.xlsx'.format(name)
+        excel_file = r'C:\Users\kushwah\OneDrive\Desktop\convert\pdfConverter\media\{}.xlsx'.format(name)
         print("PdfTOExcel")
         try:
             pdf_text = ""
@@ -73,7 +62,7 @@ def pdfToJpg(request):
         file_url = fss.url(file)
         pdf_file_name  = str(pdf_file )
         pdf_file =r'C:\Users\kushwah\OneDrive\Desktop\convert\pdfConverter\media\{}'.format(pdf_file_name)
-        image_folder = r'C:\Users\kushwah\OneDrive\Desktop\convert\pdfConverter' 
+        image_folder = r'C:\Users\kushwah\OneDrive\Desktop\convert\pdfConverter\media' 
         print("PDF TO JPG")
         try:
             pdf_document = fitz.open(pdf_file)
@@ -102,7 +91,7 @@ def pdfToPowerpoint(request):
         pdf_file =r'C:\Users\kushwah\OneDrive\Desktop\convert\pdfConverter\media\{}'.format(pdf_file_name)
         print(pdf_file)
         name, extension = os.path.splitext(pdf_file_name)
-        pptx_file = r'C:\Users\kushwah\OneDrive\Desktop\convert\pdfConverter\output.pptx'
+        pptx_file = r'C:\Users\kushwah\OneDrive\Desktop\convert\pdfConverter\media\output.pptx'
         try:
             prs = Presentation()
             with open(pdf_file, "rb") as pdf_file:
