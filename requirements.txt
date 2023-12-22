@@ -18,7 +18,7 @@ PyMuPDFb==1.23.7
 PyPDF2==3.0.1
 python-docx==1.1.0
 python-pptx==0.6.23
-pywin32==306
+# pywin32==306
 reportlab==4.0.8
 six==1.16.0
 sqlparse==0.4.4
